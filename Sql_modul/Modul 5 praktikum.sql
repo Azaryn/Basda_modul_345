@@ -62,11 +62,17 @@ from products p
 join categories c on p.category_id = c.category_id
 where p.unit_price < 10 and c.category_name ilike 'beverages'
 
-select c.company_name as "Nama Perusahaan Customer", o.order_id "ID Transaksi", o.order_date "Tanggal Pembelian"
+select c.company_name as "Perusahaan", o.order_id "ID Transaksi", o.order_date "Tanggal Pembelian"
 from orders o
 join customers c on c.customer_id = o.customer_id
-where c.country = 'USA' and EXTRACT(year from o.order_date) = 1997
+where c.country = 'USA' and EXTRACT(year from o.order_date) < 1997
 order by o.order_date
+
+select c.contact_name, o.order_id, o.order_date, o.ship_name
+from customers c
+join orders o on c.customer_id = o.customer_id
+join employees e on e.employee_id = o.employee_id
+where e.country = o.ship_country and EXTRACT(year from o.order_date) > 1997
 
 select s.company_name as "Nama Supplier", c.category_name as "Kategori Barang"
 from products p
